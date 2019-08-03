@@ -48,8 +48,8 @@ public static class Extensions
         {
             float pixelPosY = y + 0.5f;
 
-            int py = centerY + y;
-            int ny = centerY - y - 1;
+            int py = radius + y;
+            int ny = radius - y - 1;
 
             for (int x = 0; x < radius; x++)
             {
@@ -58,8 +58,8 @@ public static class Extensions
                 Vector2 pixelPos = new Vector2(pixelPosX, pixelPosY);
                 if (pixelPos.sqrMagnitude < radius * radius)
                 {
-                    int px = centerX + x;
-                    int nx = centerX - x - 1;
+                    int px = radius + x;
+                    int nx = radius - x - 1;
 
                     colors[2 * radius * py + px] = calcColor(pixelPos);
                     colors[2 * radius * py + nx] = calcColor(new Vector2(-pixelPosX, pixelPosY));

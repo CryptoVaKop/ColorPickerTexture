@@ -4,15 +4,21 @@ using UnityEngine;
 
 /// <summary>
 /// Программа для создания и сохранения в файл текстуры для ColorPicker-а в формате PNG.
-/// Текстура представляет из себя круг закрашенный смесью цветов RGB
+/// Текстура представляет из себя бублик, радиусом Radius, толщиной Thick и закрашенный смесью цветов RGB.
 /// </summary>
 public class Main : MonoBehaviour
 {
     /// <summary>
-    /// Радиус круга в пикселях.
+    /// Радиус цветного круга в пикселях.
     /// </summary>
-    [Tooltip ("Радиус круга в пикселях.")]
-    public int  Radius = 256;
+    [Tooltip ("Радиус цветного круга в пикселях.")]
+    public int  Radius = 512;
+
+    /// <summary>
+    /// Толщина цветного круга в пикселях. 
+    /// </summary>
+    [Tooltip("Толщина цветного круга в пикселях.")]
+    public int Thick = 100;
 
     /// <summary>
     /// Имя файла в который будет сохранена текстура.
@@ -34,7 +40,7 @@ public class Main : MonoBehaviour
     /// <summary>
     /// Рассчет цвета пикселя в зависимости от координат его центра. 
     /// </summary>
-    /// <param name="pixelPos"> Координаты центр пикселя относительно центра закрашиваемого круга. </param>
+    /// <param name="pixelPos"> Координаты центра пикселя относительно центра закрашиваемого круга. </param>
     /// <returns> Рассчитанный цвет пикселя. </returns>
     private Color CalcColor(Vector2 pixelPos)
     {
@@ -75,8 +81,6 @@ public class Main : MonoBehaviour
             }
         }
 
-        color = Color.Lerp(color, Color.white, (Radius - pixelPos.magnitude) / Radius);
-
         return color;
     }
 
@@ -94,7 +98,7 @@ public class Main : MonoBehaviour
             RGBpoints[p] = rotateQuaternion * RGBpoints[p - 1];
         }
 
-        // Создать массив массив под угловые расстояния заданной точки до точек R, G и B
+        // Создать массив под угловые расстояния заданной точки до точек R, G и B
         Angles = new float[RGBpoints.Length];
 
         // Создать текстуру
@@ -106,6 +110,12 @@ public class Main : MonoBehaviour
 
         // Нарисовать цветной круг
         texture.Circle(Radius, Radius, Radius, CalcColor);
+
+        // Нарисовать прозрачный круг внутри цветного круга
+        texture.Circle(Radius, Radius, Radius - Thick, (pixelPos) =>
+        {
+            return transparentColor;
+        });
 
         // Применить отрисванные пиксели к текстуре
         texture.Apply();

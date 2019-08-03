@@ -242,7 +242,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc0f8bac679d39b429630dabe5ee6e40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Radius: 256
+  Radius: 512
+  Thick: 100
   FileName: ColorPicker.png
 --- !u!81 &1793670624
 AudioListener:
